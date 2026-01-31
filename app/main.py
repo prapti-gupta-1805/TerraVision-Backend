@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 # import routers
-from app.routes import firebase_test, simulation, layers, aqi, temp
+from app.routes import ev, firebase_test, simulation, layers, aqi, solar, temp, tree_cover
 
 
 app = FastAPI(
@@ -24,6 +24,9 @@ app.include_router(layers.router)
 app.include_router(simulation.router)
 app.include_router(aqi.router)
 app.include_router(temp.router)
+app.include_router(ev.router)
+app.include_router(tree_cover.router)
+app.include_router(solar.router)
 
 @app.get("/health")
 def health():
