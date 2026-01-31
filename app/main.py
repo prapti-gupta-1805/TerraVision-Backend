@@ -1,15 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
 # import routers
-from app.routes import layers, simulation, scenarios
+from app.routes import firebase_test, simulation, layers, aqi, temp
+
 
 app = FastAPI(
     title="Green Corridor Backend API",
     version="1.0.0"
 )
 
-# Allow frontend / Postman / hackathon demo calls
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,13 +19,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# register API routers
+app.include_router(firebase_test.router)
 app.include_router(layers.router)
 app.include_router(simulation.router)
-app.include_router(scenarios.router)
+app.include_router(aqi.router)
+app.include_router(temp.router)
 
-
-# simple test route
 @app.get("/health")
 def health():
     return {"ok": True}
