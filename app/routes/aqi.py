@@ -14,10 +14,6 @@ router = APIRouter(prefix="/aqi", tags=["aqi"])
 CPCB_URL = "https://airquality.cpcb.gov.in/caaqms/rss_feed"
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 
-# -------------------------------
-# GEO HELPERS (INLINE)
-# -------------------------------
-
 project = Transformer.from_crs(
     "EPSG:4326",
     "EPSG:3857",
@@ -45,10 +41,6 @@ def filter_geojson(features, buffer_geom):
         "type": "FeatureCollection",
         "features": filtered
     }
-
-# -------------------------------
-# GET /aqi  (RAW JSON)
-# -------------------------------
 
 @router.get("/")
 def get_aqi():
@@ -87,10 +79,6 @@ def get_aqi():
         "stations": len(results),
         "data": results
     }
-
-# -------------------------------
-# POST /aqi  (STORE IN FIREBASE)
-# -------------------------------
 
 @router.post("/")
 def store_aqi():
@@ -138,10 +126,6 @@ def store_aqi():
         "documents_added": stored
     }
 
-# -------------------------------
-# AQI → GEOJSON
-# -------------------------------
-
 def aqi_to_geojson(aqi_data):
     features = []
 
@@ -168,10 +152,6 @@ def aqi_to_geojson(aqi_data):
         })
 
     return features
-
-# -------------------------------
-# GET /aqi/geojson
-# -------------------------------
 
 @router.get("/geojson")
 def get_aqi_geojson(lat: float, lon: float):
